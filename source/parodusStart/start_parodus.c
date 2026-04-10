@@ -438,6 +438,21 @@ int main(int argc, char *argv[])
             }
             LogInfo("deviceMac is %s\n", deviceMac);
         }
+#if defined(PON_GATEWAY)
+        // For PON gateway, always use HAL API
+	else if (platform_hal_GetBaseMacAddress(deviceMac) == 0)
+	{
+            LogInfo("Mac address  returned from hal:%s\n", deviceMac);
+            if(strlen(deviceMac) != 0)
+            {
+                LogInfo("deviceMac is %s\n", deviceMac);
+            }
+            else
+            {
+                LogError("Empty MAC Address received from HAL \n");
+            }
+	}
+#endif // PON_GATEWAY	
 	else
 	{
           int maxRetryTime = 31;
